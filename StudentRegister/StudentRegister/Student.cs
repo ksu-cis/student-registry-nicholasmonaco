@@ -10,19 +10,49 @@ namespace StudentRegister
     /// <summary>
     /// A class representing a student
     /// </summary>
-    public class Student
+    public class Student : INotifyPropertyChanged
     {
+
         private List<CourseResult> courseHistory;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyOfPropertyChanged(string name = "") {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        private string _first;
+        private string _last;
 
         /// <summary>
         /// Gets and sets the first name
         /// </summary>
-        public string First { get; set; }
+        public string First {
+            get {
+                return _first;
+            }
+            set {
+                if(_first != value) {
+                    _first = value;
+                    NotifyOfPropertyChanged("First");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets and sets the last name
         /// </summary>
-        public string Last { get; set; }
+        public string Last {
+            get {
+                return _last;
+            }
+            set {
+                if (_last != value) {
+                    _last = value;
+                    NotifyOfPropertyChanged("Last");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the course history
@@ -84,6 +114,24 @@ namespace StudentRegister
             First = first;
             Last = last;
             courseHistory = new List<CourseResult>();
+        }
+
+        public void CourseComplete(string name, uint hours, Grade grade, string semester) {
+            courseHistory.Add(new CourseResult(
+                name,
+                hours,
+                grade,
+                semester
+                ));
+
+            NotifyOfPropertyChanged("GPA");
+            NotifyOfPropertyChanged("CourseHistory");
+            
+        }
+
+
+        public override string ToString() {
+            return $"{Last}, {First} ({GPA})";
         }
 
     }

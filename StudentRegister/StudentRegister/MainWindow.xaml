@@ -8,8 +8,50 @@
         Title="MainWindow" Height="450" Width="800">
 
     <DockPanel>
-        <ListBox DockPanel.Dock="Right" Name="StudentList"/>
-        <ContentControl Name="SelectedStudent" />
+        <Button Click="AddGrade" DockPanel.Dock="Bottom">
+            Add Grade
+        </Button>
+        <ListBox DockPanel.Dock="Right" Name="StudentList" IsSynchronizedWithCurrentItem="True">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="https://via.placeholder.com/50"/>
+                        <TextBlock Text="{Binding Path=Last}"/>
+                        <TextBlock Text=", "/>
+                        <TextBlock Text="{Binding Path=First}"/>
+                        <TextBlock Margin="10,0,0,10" Foreground ="Pink" Text="{Binding Path=GPA, StringFormat=N2}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ContentControl Name="SelectedStudent">
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100" Text="First Name:"></TextBlock>
+                            <TextBox Width="200" Text="{Binding Path=First}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="100" Text="Last Name:"></TextBlock>
+                            <TextBox Width="200" Text="{Binding Path=Last}"/>
+                        </StackPanel>
+                        <ListBox ItemsSource="{Binding Path=CourseHistory}" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Path=Course}"/>
+                                        <TextBlock Text="{Binding Path=Semester}"/>
+                                        <TextBlock Text="{Binding Path=CreditHours}"/>
+                                        <TextBlock Text="{Binding Path=Grade}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
     </DockPanel>
     
 </Window>
